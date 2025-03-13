@@ -38,5 +38,5 @@ if archivo_subido is not None:
 
 # Información del autor
 st.markdown("---")
-st.markdown("**Código desarrollado por: Maycoll Gamarra Chura**")
+st.markdown("**Ultima actualización: 13/03/25**")
 
