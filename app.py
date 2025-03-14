@@ -12,6 +12,14 @@ st.markdown(
             color: #0073A8; /* Azul Cibertec */
         }
 
+        /* Texto "Desarrollado por" */
+        .desarrollado-por {
+            text-align: center;
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
         /* Estilo del área de carga sin bordes punteados */
         div[data-testid="stFileUploader"] {
             border: none !important;
@@ -48,12 +56,12 @@ st.markdown(
             background-color: #218838 !important; /* Verde más oscuro */
         }
 
-        /* Pie de página */
-        .footer {
-            text-align: center;
+        /* Estilo del texto de última actualización */
+        .ultima-actualizacion {
             font-size: 14px;
             color: #666;
-            margin-top: 20px;
+            text-align: center;
+            margin-top: 10px;
         }
     </style>
     """,
@@ -63,8 +71,14 @@ st.markdown(
 # Título principal
 st.title("Conversor de Preguntas para Blackboard Ultra")
 
+# Texto "Desarrollado por"
+st.markdown('<p class="desarrollado-por">Desarrollado por: <b>Maycoll Gamarra Chura</b></p>', unsafe_allow_html=True)
+
 # Subir archivo Excel
 archivo_subido = st.file_uploader("📂 Arrastra o selecciona un archivo Excel", type=["xlsx"])
+
+# Texto de última actualización debajo del botón de carga
+st.markdown('<p class="ultima-actualizacion">Última actualización: <b>16/03/25</b></p>', unsafe_allow_html=True)
 
 if archivo_subido is not None:
     st.write("📂 **Archivo cargado:**", archivo_subido.name)
@@ -95,13 +109,3 @@ if archivo_subido is not None:
     os.remove(ruta_temporal)
     if os.path.exists(ruta_salida):
         os.remove(ruta_salida)
-
-# Pie de página con desarrollador y fecha de actualización
-st.markdown(
-    """
-    <div class="footer">
-        <p>Desarrollado por [Tu Nombre] | Última actualización: Marzo 2025</p>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
