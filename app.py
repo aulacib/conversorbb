@@ -7,18 +7,8 @@ st.markdown(
     .desarrollado {
         text-align: left;
         font-size: 16px;
-        font-weight: bold;
+        font-weight: normal; /* Se quita la negrita */
         margin-bottom: 10px;
-    }
-    .file-uploader {
-        text-align: left;
-        font-size: 14px;
-    }
-    .stFileUploader label {
-        font-size: 14px !important;
-    }
-    .stFileUploader div {
-        font-size: 14px !important;
     }
     .ultima-actualizacion {
         font-size: 12px;
@@ -30,12 +20,12 @@ st.markdown(
         background-color: #004A98 !important; /* Azul Cibertec */
         color: white !important;
         border: none !important;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Sombra suave */
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
         transition: 0.3s ease-in-out;
     }
     div[data-testid="stFileUploadDropzone"] button:hover {
         background-color: #003366 !important; /* Azul más oscuro al pasar el mouse */
-        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3); /* Efecto de sombra más pronunciado */
+        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
     }
     </style>
     """,
@@ -45,7 +35,7 @@ st.markdown(
 # Título de la aplicación
 st.title("Conversor de Preguntas para Blackboard Ultra")
 
-# Información del desarrollador alineado a la izquierda
+# Información del desarrollador SIN negrita
 st.markdown('<div class="desarrollado">Desarrollado por: Maycoll Gamarra Chura</div>', unsafe_allow_html=True)
 
 # Sección de carga de archivos
