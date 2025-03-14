@@ -4,30 +4,32 @@ import convertir  # Importa tu script de conversión
 import os
 
 st.title("Conversor de Preguntas para Blackboard Ultra")
-st.markdown("**Desarrollado por: Maycoll Gamarra Chura**")
 
 # Subir archivo Excel
 archivo_subido = st.file_uploader("Sube un archivo Excel", type=["xlsx"])
 
 if archivo_subido is not None:
-    st.write("\U0001F4C2 Archivo cargado:", archivo_subido.name)
+    st.write("📂 Archivo cargado:", archivo_subido.name)
     
     # Guardar temporalmente el archivo
     ruta_temporal = "archivo_temporal.xlsx"
     with open(ruta_temporal, "wb") as f:
         f.write(archivo_subido.getbuffer())
 
+    # Obtener el nombre base del archivo sin la extensión
+    nombre_base = os.path.splitext(archivo_subido.name)[0]
+
     # Convertir preguntas
     preguntas = convertir.convertir_excel_a_preguntas(ruta_temporal)
 
     if preguntas:
-        # Guardar en TXT
-        ruta_salida = "preguntas.txt"
+        # Guardar en TXT con el nombre correcto
+        ruta_salida = f"preguntas_{nombre_base}.txt"
         convertir.guardar_preguntas_en_txt(preguntas, ruta_salida)
 
-        # Mostrar botón de descarga
+        # Mostrar botón de descarga con el nombre correcto
         with open(ruta_salida, "rb") as f:
-            st.download_button("\U0001F4E5 Descargar archivo TXT", f, file_name="preguntas.txt", mime="text/plain")
+            st.download_button("📥 Descargar archivo TXT", f, file_name=ruta_salida, mime="text/plain")
     else:
         st.error("❌ Hubo un error en la conversión. Revisa el formato del archivo.")
 
@@ -36,7 +38,4 @@ if archivo_subido is not None:
     if os.path.exists(ruta_salida):
         os.remove(ruta_salida)
 
-# Información del autor
-st.markdown("---")
-st.markdown("**Ultima actualización: 13/03/25**")
 
