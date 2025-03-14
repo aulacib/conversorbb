@@ -20,6 +20,11 @@ st.markdown(
     .stFileUploader div {
         font-size: 14px !important;
     }
+    .ultima-actualizacion {
+        font-size: 12px;
+        color: #555;
+        margin-top: 20px;
+    }
     </style>
     """,
     unsafe_allow_html=True
@@ -40,5 +45,5 @@ archivo = st.file_uploader("", type=["xlsx"], label_visibility="collapsed")
 if archivo:
     st.success("Archivo cargado correctamente.")
 
-# Mostrar la fecha de última actualización
-st.markdown("### Última actualización: **16/03/25**")
+# Mostrar la fecha de última actualización sin icono de enlace
+st.markdown('<p class="ultima-actualizacion">Última actualización: 16/03/25</p>', unsafe_allow_html=True)
