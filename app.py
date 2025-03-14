@@ -25,6 +25,18 @@ st.markdown(
         color: #555;
         margin-top: 20px;
     }
+    /* Estilos para el botón de subida de archivos */
+    div[data-testid="stFileUploadDropzone"] button {
+        background-color: #004A98 !important; /* Azul Cibertec */
+        color: white !important;
+        border: none !important;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Sombra suave */
+        transition: 0.3s ease-in-out;
+    }
+    div[data-testid="stFileUploadDropzone"] button:hover {
+        background-color: #003366 !important; /* Azul más oscuro al pasar el mouse */
+        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3); /* Efecto de sombra más pronunciado */
+    }
     </style>
     """,
     unsafe_allow_html=True
