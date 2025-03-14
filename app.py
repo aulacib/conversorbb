@@ -2,7 +2,7 @@ import streamlit as st
 import os
 import convertir  # Importa tu script de conversión
 
-# Agregar estilos personalizados con CSS para mejorar la apariencia
+# Agregar estilos personalizados con CSS
 st.markdown(
     """
     <style>
@@ -12,13 +12,14 @@ st.markdown(
             color: #0073A8; /* Azul Cibertec */
         }
 
-        /* Efecto hover en el botón de carga */
+        /* Estilo del área de carga sin bordes punteados */
         div[data-testid="stFileUploader"] {
-            border: 2px dashed #0073A8 !important;
+            border: none !important;
             border-radius: 10px;
             padding: 10px;
         }
 
+        /* Estilo del botón de carga */
         div[data-testid="stFileUploader"] button {
             background-color: #0073A8 !important; /* Azul Cibertec */
             color: white !important;
@@ -45,6 +46,14 @@ st.markdown(
 
         .stDownloadButton > button:hover {
             background-color: #218838 !important; /* Verde más oscuro */
+        }
+
+        /* Pie de página */
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-top: 20px;
         }
     </style>
     """,
@@ -86,3 +95,13 @@ if archivo_subido is not None:
     os.remove(ruta_temporal)
     if os.path.exists(ruta_salida):
         os.remove(ruta_salida)
+
+# Pie de página con desarrollador y fecha de actualización
+st.markdown(
+    """
+    <div class="footer">
+        <p>Desarrollado por [Tu Nombre] | Última actualización: Marzo 2025</p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
