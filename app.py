@@ -82,10 +82,7 @@ st.title("Conversor de Preguntas para Blackboard Ultra")
 st.markdown('<p class="desarrollado-por">Desarrollado por: <b>Maycoll Gamarra Chura</b></p>', unsafe_allow_html=True)
 
 # Subir archivo Excel con textos en español
-archivo_subido = st.file_uploader("📂 Arrastra o selecciona un archivo Excel", type=["xlsx"])
-
-# Mostrar el texto traducido debajo del área de carga
-st.markdown('<p style="text-align: center; font-size: 14px; color: #777;">Límite: 200MB por archivo • XLSX</p>', unsafe_allow_html=True)
+archivo_subido = st.file_uploader("📂 Arrastrar y soltar archivo aquí", type=["xlsx"])
 
 # Texto de última actualización debajo del botón de carga
 st.markdown('<p class="ultima-actualizacion">Última actualización: <b>16/03/25</b></p>', unsafe_allow_html=True)
