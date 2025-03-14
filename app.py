@@ -6,11 +6,19 @@ st.markdown(
     <style>
     .desarrollado {
         text-align: left;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: bold;
+        margin-bottom: 10px;
     }
-    .stFileUploader {
+    .file-uploader {
         text-align: left;
+        font-size: 14px;
+    }
+    .stFileUploader label {
+        font-size: 14px !important;
+    }
+    .stFileUploader div {
+        font-size: 14px !important;
     }
     </style>
     """,
@@ -24,10 +32,11 @@ st.title("Conversor de Preguntas para Blackboard Ultra")
 st.markdown('<div class="desarrollado">Desarrollado por: Maycoll Gamarra Chura</div>', unsafe_allow_html=True)
 
 # Sección de carga de archivos
-st.markdown("📂 Arrastra o selecciona un archivo Excel")
-archivo = st.file_uploader("Arrastrar y soltar archivo aquí", type=["xlsx"])
+st.markdown("📂 **Arrastra o selecciona un archivo Excel**")
 
-# Botón para explorar archivos
+archivo = st.file_uploader("", type=["xlsx"], label_visibility="collapsed")
+
+# Mostrar mensaje de éxito si se carga un archivo
 if archivo:
     st.success("Archivo cargado correctamente.")
 
