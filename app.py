@@ -7,26 +7,13 @@ import os
 st.markdown(
     """
     <style>
-        /* Personalizar el cuadro de carga de archivos */
-        div[data-testid="stFileUploader"] {
-            border: 2px dashed #2E86C1; /* Borde azul con líneas discontinuas */
-            padding: 20px;
-            border-radius: 10px;
-            transition: all 0.3s ease-in-out; /* Efecto suave */
+        /* Efecto al pasar el mouse sobre el botón de carga */
+        div[data-testid="stFileUploader"] button {
+            transition: background-color 0.3s ease-in-out;
         }
 
-        /* Efecto al pasar el mouse (hover) */
-        div[data-testid="stFileUploader"]:hover {
-            background-color: #EAF2F8; /* Fondo celeste al pasar el mouse */
-            border: 2px solid #1F618D; /* Borde sólido azul oscuro */
-            box-shadow: 0px 0px 10px rgba(46, 134, 193, 0.5); /* Sombra azul */
-        }
-
-        /* Personalizar el texto del label */
-        div[data-testid="stFileUploader"] > label {
-            font-size: 18px;
-            font-weight: bold;
-            color: #1F618D;
+        div[data-testid="stFileUploader"] button:hover {
+            background-color: #D6EAF8; /* Cambio de color al pasar el cursor */
         }
     </style>
     """,
@@ -67,4 +54,3 @@ if archivo_subido is not None:
     os.remove(ruta_temporal)
     if os.path.exists(ruta_salida):
         os.remove(ruta_salida)
-
