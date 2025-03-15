@@ -16,7 +16,7 @@ st.markdown(
     h1.titulo {
         font-size: 28px !important; /* Tamaño del título intermedio */
         font-weight: bold;
-        text-align: left;
+        text-align: center;
         margin-bottom: 10px;
         color: #333;
     }
