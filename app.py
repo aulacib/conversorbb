@@ -7,12 +7,12 @@ from convertir import convertir_excel_a_preguntas
 st.markdown(
     """
     <style>
-    /* Reducir margen superior del título */
+    /* Ajustar el título para que no sea tapado por la barra de Streamlit */
     .titulo {
         font-size: 24px;
         font-weight: bold;
         text-align: left;
-        margin-top: -40px; /* Reduce el espacio en blanco */
+        margin-top: 3rem; /* Ajusta para que no lo tape la barra */
         margin-bottom: 15px;
         color: #333;
     }
