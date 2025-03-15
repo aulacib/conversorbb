@@ -1,43 +1,47 @@
 import streamlit as st
 import pandas as pd
-import convertir  # Importa tu script de conversión
-import os
 import base64
+import io
 
-st.title("Conversor de Preguntas para Blackboard Ultra")
+def convertir_a_txt(df, nombre_archivo):
+    output = io.StringIO()
+    for index, row in df.iterrows():
+        output.write(f"{row['Pregunta']}\n")
+        for opcion in ['A', 'B', 'C', 'D']:
+            if pd.notna(row[opcion]):
+                output.write(f"{opcion.lower()}. {row[opcion]}\n")
+        output.write("\n")
+    contenido = output.getvalue()
+    output.close()
+    return contenido
 
-# Subir archivo Excel
-archivo_subido = st.file_uploader("Sube un archivo Excel", type=["xlsx"])
+def generar_link_descarga(contenido, nombre_archivo):
+    b64 = base64.b64encode(contenido.encode()).decode()
+    return f'<a href="data:file/txt;base64,{b64}" download="{nombre_archivo}">📥 Descargar archivo TXT automáticamente</a>'
 
-if archivo_subido is not None:
-    st.write("📂 Archivo cargado:", archivo_subido.name)
+# Configuración de la página
+st.set_page_config(page_title="Blackboard Ultra", layout="centered")
+st.markdown("""
+    <h1 style="text-align: center;">Blackboard Ultra</h1>
+    <p style="text-align: center;">Desarrollado por: Maycoll Gamarra Chura</p>
+    <hr>
+    <h3>📂 Arrastra o selecciona un archivo Excel</h3>
+""", unsafe_allow_html=True)
+
+archivo = st.file_uploader("Drag and drop file here", type=["xlsx"], help="Limit 200MB per file • XLSX")
+
+if archivo is not None:
+    df = pd.read_excel(archivo, sheet_name="Formato")
+    nombre_archivo = archivo.name.replace(".xlsx", ".txt")
+    contenido_txt = convertir_a_txt(df, nombre_archivo)
     
-    # Guardar temporalmente el archivo
-    ruta_temporal = "archivo_temporal.xlsx"
-    with open(ruta_temporal, "wb") as f:
-        f.write(archivo_subido.getbuffer())
+    st.success("Archivo cargado correctamente.")
+    st.markdown(generar_link_descarga(contenido_txt, nombre_archivo), unsafe_allow_html=True)
+    
+    # Guardar en buffer para la descarga manual
+    buffer = io.BytesIO()
+    buffer.write(contenido_txt.encode())
+    buffer.seek(0)
+    st.download_button(label="Descargar archivo TXT", data=buffer, file_name=nombre_archivo, mime="text/plain")
 
-    # Convertir preguntas
-    preguntas = convertir.convertir_excel_a_preguntas(ruta_temporal)
-
-    if preguntas:
-        # Crear nombre de archivo basado en el Excel subido
-        nombre_archivo_txt = f"preguntas_{archivo_subido.name.replace('.xlsx', '')}.txt"
-        ruta_salida = nombre_archivo_txt
-        convertir.guardar_preguntas_en_txt(preguntas, ruta_salida)
-
-        # Convertir archivo a base64 para descarga automática
-        with open(ruta_salida, "rb") as f:
-            contenido_txt = f.read()
-            b64_txt = base64.b64encode(contenido_txt).decode()
-
-        href = f'<a href="data:file/txt;base64,{b64_txt}" download="{nombre_archivo_txt}">🔽 Descargar automáticamente</a>'
-        st.markdown(href, unsafe_allow_html=True)
-
-    else:
-        st.error("❌ Hubo un error en la conversión. Revisa el formato del archivo.")
-
-    # Borrar archivos temporales
-    os.remove(ruta_temporal)
-    if os.path.exists(ruta_salida):
-        os.remove(ruta_salida)
+st.markdown("<p style='text-align: center;'>Última actualización: 16/03/25</p>", unsafe_allow_html=True)
