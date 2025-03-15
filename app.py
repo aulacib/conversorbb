@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 import convertir  # Importa tu script de conversión
 import os
 
@@ -19,16 +20,19 @@ if archivo_subido is not None:
     preguntas = convertir.convertir_excel_a_preguntas(ruta_temporal)
 
     if preguntas:
-        # Crear el nombre del archivo TXT basado en el nombre del Excel
-        nombre_base = os.path.splitext(archivo_subido.name)[0]  # Elimina la extensión .xlsx
+        # Crear nombre de archivo de salida basado en el nombre original
+        nombre_base = os.path.splitext(archivo_subido.name)[0]
         ruta_salida = f"preguntas_{nombre_base}.txt"
-        
-        # Guardar automáticamente en el servidor
+
+        # Guardar archivo TXT localmente
         convertir.guardar_preguntas_en_txt(preguntas, ruta_salida)
-        
-        st.success(f"✅ Archivo guardado automáticamente en: {os.path.abspath(ruta_salida)}")
+        st.success(f"✅ Archivo guardado automáticamente como: {ruta_salida}")
+
+        # Mostrar botón de descarga
+        with open(ruta_salida, "rb") as f:
+            st.download_button("📥 Descargar archivo TXT", f, file_name=ruta_salida, mime="text/plain")
     else:
         st.error("❌ Hubo un error en la conversión. Revisa el formato del archivo.")
 
-    # Borrar archivo temporal
+    # Borrar archivos temporales
     os.remove(ruta_temporal)
