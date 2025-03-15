@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-from io import BytesIO
+import io
+from convertir import convertir_excel_a_preguntas
 
 # Estilos personalizados
 st.markdown(
@@ -9,7 +10,7 @@ st.markdown(
     .desarrollado {
         text-align: left;
         font-size: 16px;
-        font-weight: normal;
+        font-weight: normal; /* Se quita la negrita */
         margin-bottom: 10px;
     }
     .ultima-actualizacion {
@@ -17,15 +18,16 @@ st.markdown(
         color: #555;
         margin-top: 20px;
     }
+    /* Estilos para el botón de subida de archivos */
     div[data-testid="stFileUploadDropzone"] button {
-        background-color: #004A98 !important;
+        background-color: #004A98 !important; /* Azul Cibertec */
         color: white !important;
         border: none !important;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
         transition: 0.3s ease-in-out;
     }
     div[data-testid="stFileUploadDropzone"] button:hover {
-        background-color: #003366 !important;
+        background-color: #003366 !important; /* Azul más oscuro al pasar el mouse */
         box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
     }
     </style>
@@ -40,37 +42,29 @@ st.title("Conversor de Preguntas para Blackboard Ultra")
 st.markdown('<div class="desarrollado">Desarrollado por: Maycoll Gamarra Chura</div>', unsafe_allow_html=True)
 
 # Sección de carga de archivos
-st.markdown("\U0001F4C2 **Arrastra o selecciona un archivo Excel**")
+st.markdown("📂 **Arrastra o selecciona un archivo Excel**")
 archivo = st.file_uploader("", type=["xlsx"], label_visibility="collapsed")
 
-# Función para convertir el archivo Excel a formato TXT
-
-def convertir_a_txt(archivo):
-    df = pd.read_excel(archivo, sheet_name="Formato")
-    
-    # Simulación de conversión
-    contenido_txt = "".join(df.astype(str).apply(lambda x: " ".join(x), axis=1))
-    
-    return contenido_txt
-
-# Procesamiento del archivo
 if archivo:
     st.success("Archivo cargado correctamente.")
     
-    contenido_txt = convertir_a_txt(archivo)
+    # Convertir el archivo cargado
+    preguntas_formateadas = convertir_excel_a_preguntas(archivo)
     
-    # Convertir el contenido a un archivo descargable
-    buffer = BytesIO()
-    buffer.write(contenido_txt.encode())
-    buffer.seek(0)
-    
-    # Botón de descarga
-    st.download_button(
-        label="📥 Descargar archivo TXT",
-        data=buffer,
-        file_name="preguntas_blackboard.txt",
-        mime="text/plain"
-    )
+    if preguntas_formateadas:
+        contenido_txt = "\n\n".join(preguntas_formateadas)
+        archivo_txt = io.BytesIO()
+        archivo_txt.write(contenido_txt.encode("utf-8"))
+        archivo_txt.seek(0)
+        
+        st.download_button(
+            label="📥 Descargar archivo TXT",
+            data=archivo_txt,
+            file_name="preguntas_blackboard.txt",
+            mime="text/plain"
+        )
+    else:
+        st.error("No se pudieron procesar las preguntas. Verifique el archivo.")
 
 # Mostrar la fecha de última actualización sin icono de enlace
 st.markdown('<p class="ultima-actualizacion">Última actualización: 16/03/25</p>', unsafe_allow_html=True)
