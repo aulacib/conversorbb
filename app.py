@@ -60,7 +60,7 @@ if archivo:
         st.download_button(
             label="📥 Descargar archivo TXT",
             data=archivo_txt,
-            file_name="preguntas_blackboard.txt",
+            file_name=f"preguntas_{archivo.name.replace('.xlsx', '')}.txt",
             mime="text/plain"
         )
     else:
