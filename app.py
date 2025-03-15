@@ -9,7 +9,7 @@ st.markdown(
     <style>
     /* Ajustar el margen superior de todo el contenido */
     .block-container {
-        padding-top: 28px !important; /* Baja todo 7 píxeles */
+        padding-top: 35px !important; /* Baja todo 7 píxeles */
     }
 
     /* Estilo del título con prioridad */
