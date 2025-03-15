@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import convertir  # Importa tu script de conversión
 import os
+import time
 
 st.title("Conversor de Preguntas para Blackboard Ultra")
 
@@ -20,19 +21,24 @@ if archivo_subido is not None:
     preguntas = convertir.convertir_excel_a_preguntas(ruta_temporal)
 
     if preguntas:
-        # Crear nombre de archivo de salida basado en el nombre original
-        nombre_base = os.path.splitext(archivo_subido.name)[0]
-        ruta_salida = f"preguntas_{nombre_base}.txt"
-
-        # Guardar archivo TXT localmente
+        # Crear nombre de archivo basado en el Excel subido
+        nombre_archivo_txt = f"preguntas_{archivo_subido.name.replace('.xlsx', '')}.txt"
+        ruta_salida = nombre_archivo_txt
         convertir.guardar_preguntas_en_txt(preguntas, ruta_salida)
-        st.success(f"✅ Archivo guardado automáticamente como: {ruta_salida}")
 
-        # Mostrar botón de descarga
+        # Mostrar enlace de descarga automática en HTML
         with open(ruta_salida, "rb") as f:
-            st.download_button("📥 Descargar archivo TXT", f, file_name=ruta_salida, mime="text/plain")
+            contenido_txt = f.read()
+        
+        time.sleep(1)  # Pequeña pausa para asegurar la generación del archivo
+
+        href = f'<a href="data:file/txt;base64,{contenido_txt.decode("utf-8")}" download="{nombre_archivo_txt}">🔽 Descargar automáticamente</a>'
+        st.markdown(href, unsafe_allow_html=True)
+
     else:
         st.error("❌ Hubo un error en la conversión. Revisa el formato del archivo.")
 
     # Borrar archivos temporales
     os.remove(ruta_temporal)
+    if os.path.exists(ruta_salida):
+        os.remove(ruta_salida)
