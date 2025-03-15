@@ -39,7 +39,7 @@ st.title("Conversor de Preguntas para Blackboard Ultra")
 st.markdown('<div class="desarrollado">Desarrollado por: Maycoll Gamarra Chura</div>', unsafe_allow_html=True)
 
 # Sección de carga de archivos
-st.markdown("📂 **Arrastra o selecciona un archivo Excel**")
+st.markdown("\U0001F4C2 **Arrastra o selecciona un archivo Excel**")
 
 archivo = st.file_uploader("", type=["xlsx"], label_visibility="collapsed")
 
