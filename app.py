@@ -7,21 +7,32 @@ from convertir import convertir_excel_a_preguntas
 st.markdown(
     """
     <style>
+    /* Estilo del título */
+    .titulo {
+        font-size: 28px; /* Tamaño reducido */
+        font-weight: bold;
+        text-align: left;
+        margin-top: 10px;
+        margin-bottom: 15px;
+        color: #333;
+    }
+    
+    /* Información del desarrollador */
     .desarrollado {
         text-align: left;
-        font-size: 16px;
+        font-size: 14px;
         font-weight: normal;
         margin-bottom: 10px;
+        color: #444;
     }
+
+    /* Última actualización */
     .ultima-actualizacion {
         font-size: 12px;
         color: #555;
         margin-top: 20px;
     }
-    /* Ajuste del título para que esté en una sola línea */
-    .stMarkdown h1 {
-        white-space: nowrap;
-    }
+
     /* Estilos para el botón de subida de archivos */
     div[data-testid="stFileUploadDropzone"] button {
         background-color: #004A98 !important;
@@ -39,8 +50,8 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Título en una sola línea
-st.markdown("<h1 style='text-align: left;'>Conversor de Preguntas para Blackboard Ultra</h1>", unsafe_allow_html=True)
+# Título con nuevo estilo
+st.markdown('<h1 class="titulo">Conversor de Preguntas para Blackboard Ultra</h1>', unsafe_allow_html=True)
 
 # Información del desarrollador
 st.markdown('<div class="desarrollado">Desarrollado por: Maycoll Gamarra Chura</div>', unsafe_allow_html=True)
