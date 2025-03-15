@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import convertir  # Importa tu script de conversión
 import os
-import time
+import base64
 
 st.title("Conversor de Preguntas para Blackboard Ultra")
 
@@ -26,13 +26,12 @@ if archivo_subido is not None:
         ruta_salida = nombre_archivo_txt
         convertir.guardar_preguntas_en_txt(preguntas, ruta_salida)
 
-        # Mostrar enlace de descarga automática en HTML
+        # Convertir archivo a base64 para descarga automática
         with open(ruta_salida, "rb") as f:
             contenido_txt = f.read()
-        
-        time.sleep(1)  # Pequeña pausa para asegurar la generación del archivo
+            b64_txt = base64.b64encode(contenido_txt).decode()
 
-        href = f'<a href="data:file/txt;base64,{contenido_txt.decode("utf-8")}" download="{nombre_archivo_txt}">🔽 Descargar automáticamente</a>'
+        href = f'<a href="data:file/txt;base64,{b64_txt}" download="{nombre_archivo_txt}">🔽 Descargar automáticamente</a>'
         st.markdown(href, unsafe_allow_html=True)
 
     else:
