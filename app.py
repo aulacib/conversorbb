@@ -1,47 +1,55 @@
-import streamlit as st
-import pandas as pd
-import convertir  # Importa tu script de conversión
-import os
+""import React, { useState } from "react";
+import { useDropzone } from "react-dropzone";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { CloudUpload, FileText, CheckCircle, Download } from "lucide-react";
 
-st.title("Conversor de preguntas Blackboard Ultra")
+export default function Conversor() {
+  const [file, setFile] = useState(null);
+  const [converted, setConverted] = useState(false);
 
-st.markdown("<p style='text-align:center; font-size:14px;'>Desarrollado por: Maycoll Gamarra Chura</p>", unsafe_allow_html=True)
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"] },
+    onDrop: (acceptedFiles) => {
+      setFile(acceptedFiles[0]);
+      setConverted(true);
+    },
+  });
 
-st.markdown("<p style='text-align:center; font-size:14px;'>Última actualización: 15/03/25</p>", unsafe_allow_html=True)
+  return (
+    <div className="p-6 max-w-2xl mx-auto space-y-2">
+      <h1 className="text-2xl font-bold">Conversor de preguntas Blackboard Ultra</h1>
+      
+      <p className="text-sm">Desarrollado por: Maycoll Gamarra Chura</p>
+      <p className="text-sm mb-4">Última actualización: 15/03/25</p>
 
-# Subir archivo Excel
-archivo_subido = st.file_uploader("📂 Arrastra o selecciona un archivo Excel", type=["xlsx"], label_visibility='collapsed')
-
-if archivo_subido is not None:
-    st.markdown(f"<p style='color:green; font-weight:bold;'>📂 Archivo cargado: {archivo_subido.name}</p>", unsafe_allow_html=True)
-    
-    # Guardar temporalmente el archivo
-    ruta_temporal = "archivo_temporal.xlsx"
-    with open(ruta_temporal, "wb") as f:
-        f.write(archivo_subido.getbuffer())
-
-    # Convertir preguntas
-    preguntas = convertir.convertir_excel_a_preguntas(ruta_temporal)
-
-    if preguntas:
-        # Guardar en TXT
-        ruta_salida = "preguntas.txt"
-        convertir.guardar_preguntas_en_txt(preguntas, ruta_salida)
-
-        # Mostrar mensaje de éxito con fondo verde
-        st.markdown("""
-        <div style='background-color:#DFF2BF; padding:10px; border-radius:5px;'>
-            ✅ <span style='color:green;'>Archivo cargado correctamente.</span>
+      <Card className="p-4 border-dashed border-2 border-gray-300" {...getRootProps()}>
+        <input {...getInputProps()} />
+        <div className="flex items-center space-x-2">
+          <CloudUpload className="text-gray-500" />
+          <p className="text-gray-500">📂 Arrastra o selecciona un archivo Excel</p>
         </div>
-        """, unsafe_allow_html=True)
+        <p className="text-xs text-gray-400">Límite 200MB por archivo • XLSX</p>
+      </Card>
 
-        # Mostrar botón de descarga
-        with open(ruta_salida, "rb") as f:
-            st.download_button("📥 Descargar archivo TXT", f, file_name="preguntas.txt", mime="text/plain")
-    else:
-        st.error("❌ Hubo un error en la conversión. Revisa el formato del archivo.")
+      {file && (
+        <div className="mt-2 p-2 border border-green-600 bg-green-100 rounded">
+          <div className="flex items-center space-x-2">
+            <span className="text-green-700 font-bold">📂 Archivo cargado: {file.name}</span>
+          </div>
+          <p className="text-green-700 flex items-center space-x-1">
+            <CheckCircle className="text-green-700" size={16} />
+            <span>Archivo cargado correctamente.</span>
+          </p>
+        </div>
+      )}
 
-    # Borrar archivos temporales
-    os.remove(ruta_temporal)
-    if os.path.exists(ruta_salida):
-        os.remove(ruta_salida)
+      {converted && (
+        <Button className="mt-2 flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded">
+          <Download size={16} />
+          <span>Descargar archivo TXT</span>
+        </Button>
+      )}
+    </div>
+  );
+}""
