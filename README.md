@@ -6,8 +6,7 @@ Recordar en caso de replica del código, respetar los derechos de autor.
 
 Nota:
 El código base esta hecho para usarlo de manera local, para ello se requiere la creación de carpetas:
-origen
-procesados
+"origen" y "procesados".
 
 
 
