@@ -32,7 +32,7 @@ st.markdown(
 
     /* Última actualización */
     .ultima-actualizacion {
-        font-size: 10px;
+        font-size: 6px;
         color: #555;
         margin-top: 20px;
     }
