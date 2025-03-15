@@ -1,55 +1,33 @@
 import streamlit as st
 import pandas as pd
+import convertir  # Importa tu script de conversión
 import os
 
-def convertir_excel_a_txt(archivo, nombre_salida):
-    df = pd.read_excel(archivo, sheet_name="Formato")
-    
-    preguntas_txt = []
-    
-    for _, row in df.iterrows():
-        tipo_pregunta = str(row.get("Tipo de Pregunta", "")).strip().lower()
-        enunciado = str(row.get("Enunciado", "")).strip()
-        
-        if tipo_pregunta == "opción múltiple":
-            preguntas_txt.append(f"MC\t{enunciado}")
-            opciones = ["A", "B", "C", "D"]
-            for opcion in opciones:
-                respuesta = str(row.get(opcion, "")).strip()
-                if respuesta:
-                    preguntas_txt.append(f"{opcion}. {respuesta}")
-            preguntas_txt.append("")  
-        
-        elif tipo_pregunta == "verdadero/falso":
-            preguntas_txt.append(f"TF\t{enunciado}")
-            respuesta_correcta = str(row.get("Respuesta Correcta", "")).strip()
-            preguntas_txt.append(f"Correcta: {respuesta_correcta}")
-            preguntas_txt.append("")  
-        
-        elif tipo_pregunta == "rellenar el espacio en blanco":
-            preguntas_txt.append(f"blank 1. {enunciado}")
-            respuestas_correctas = str(row.get("I", "")).strip()
-            if respuestas_correctas:
-                preguntas_txt.append(f"a. {respuestas_correctas}")
-            preguntas_txt.append("")  
-    
-    ruta_salida = os.path.join(os.getcwd(), nombre_salida)
-    with open(ruta_salida, "w", encoding="utf-8") as f:
-        f.write("\n".join(preguntas_txt))
-    
-    return ruta_salida
-
-# Interfaz en Streamlit
 st.title("Conversor de Preguntas para Blackboard Ultra")
-st.markdown("Desarrollado por: Maycoll Gamarra Chura")
-st.markdown("📂 **Arrastra o selecciona un archivo Excel**")
 
-archivo = st.file_uploader("", type=["xlsx"], label_visibility="collapsed")
+# Subir archivo Excel
+archivo_subido = st.file_uploader("📂 Sube un archivo Excel", type=["xlsx"])
 
-if archivo:
+if archivo_subido is not None:
     st.success("Archivo cargado correctamente.")
-    nombre_salida = "preguntas_blackboard.txt"
-    ruta_archivo_txt = convertir_excel_a_txt(archivo, nombre_salida)
-    st.success(f"Archivo guardado automáticamente en: {ruta_archivo_txt}")
-
-st.markdown("Última actualización: 16/03/25")
+    
+    # Guardar temporalmente el archivo
+    ruta_temporal = "archivo_temporal.xlsx"
+    with open(ruta_temporal, "wb") as f:
+        f.write(archivo_subido.getbuffer())
+    
+    # Convertir preguntas
+    preguntas = convertir.convertir_excel_a_preguntas(ruta_temporal)
+    
+    if preguntas:
+        # Generar el nombre del archivo de salida
+        nombre_salida = f"preguntas_{archivo_subido.name.replace('.xlsx', '')}.txt"
+        
+        # Guardar en TXT automáticamente
+        convertir.guardar_preguntas_en_txt(preguntas, nombre_salida)
+        st.success(f"Archivo guardado automáticamente en: {nombre_salida}")
+    else:
+        st.error("❌ Hubo un error en la conversión. Revisa el formato del archivo.")
+    
+    # Borrar archivo temporal
+    os.remove(ruta_temporal)
