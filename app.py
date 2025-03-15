@@ -1,55 +1,51 @@
-""import React, { useState } from "react";
-import { useDropzone } from "react-dropzone";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { CloudUpload, FileText, CheckCircle, Download } from "lucide-react";
+import streamlit as st
 
-export default function Conversor() {
-  const [file, setFile] = useState(null);
-  const [converted, setConverted] = useState(false);
+# Estilos personalizados
+st.markdown(
+    """
+    <style>
+    .desarrollado {
+        text-align: left;
+        font-size: 16px;
+        font-weight: normal; /* Se quita la negrita */
+        margin-bottom: 10px;
+    }
+    .ultima-actualizacion {
+        font-size: 12px;
+        color: #555;
+        margin-top: 20px;
+    }
+    /* Estilos para el botón de subida de archivos */
+    div[data-testid="stFileUploadDropzone"] button {
+        background-color: #004A98 !important; /* Azul Cibertec */
+        color: white !important;
+        border: none !important;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        transition: 0.3s ease-in-out;
+    }
+    div[data-testid="stFileUploadDropzone"] button:hover {
+        background-color: #003366 !important; /* Azul más oscuro al pasar el mouse */
+        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"] },
-    onDrop: (acceptedFiles) => {
-      setFile(acceptedFiles[0]);
-      setConverted(true);
-    },
-  });
+# Título de la aplicación
+st.title("Conversor de Preguntas para Blackboard Ultra")
 
-  return (
-    <div className="p-6 max-w-2xl mx-auto space-y-2">
-      <h1 className="text-2xl font-bold">Conversor de preguntas Blackboard Ultra</h1>
-      
-      <p className="text-sm">Desarrollado por: Maycoll Gamarra Chura</p>
-      <p className="text-sm mb-4">Última actualización: 15/03/25</p>
+# Información del desarrollador SIN negrita
+st.markdown('<div class="desarrollado">Desarrollado por: Maycoll Gamarra Chura</div>', unsafe_allow_html=True)
 
-      <Card className="p-4 border-dashed border-2 border-gray-300" {...getRootProps()}>
-        <input {...getInputProps()} />
-        <div className="flex items-center space-x-2">
-          <CloudUpload className="text-gray-500" />
-          <p className="text-gray-500">📂 Arrastra o selecciona un archivo Excel</p>
-        </div>
-        <p className="text-xs text-gray-400">Límite 200MB por archivo • XLSX</p>
-      </Card>
+# Sección de carga de archivos
+st.markdown("📂 **Arrastra o selecciona un archivo Excel**")
 
-      {file && (
-        <div className="mt-2 p-2 border border-green-600 bg-green-100 rounded">
-          <div className="flex items-center space-x-2">
-            <span className="text-green-700 font-bold">📂 Archivo cargado: {file.name}</span>
-          </div>
-          <p className="text-green-700 flex items-center space-x-1">
-            <CheckCircle className="text-green-700" size={16} />
-            <span>Archivo cargado correctamente.</span>
-          </p>
-        </div>
-      )}
+archivo = st.file_uploader("", type=["xlsx"], label_visibility="collapsed")
 
-      {converted && (
-        <Button className="mt-2 flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded">
-          <Download size={16} />
-          <span>Descargar archivo TXT</span>
-        </Button>
-      )}
-    </div>
-  );
-}""
+# Mostrar mensaje de éxito si se carga un archivo
+if archivo:
+    st.success("Archivo cargado correctamente.")
+
+# Mostrar la fecha de última actualización sin icono de enlace
+st.markdown('<p class="ultima-actualizacion">Última actualización: 16/03/25</p>', unsafe_allow_html=True)
