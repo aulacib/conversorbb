@@ -10,29 +10,29 @@ st.markdown("""
             font-size: 36px;
             font-weight: bold;
             text-align: left;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
         .desarrollador {
             font-size: 16px;
             color: #666;
             text-align: left;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         .archivo-cargado {
             color: green;
             font-weight: bold;
-            margin-top: 10px;
-            margin-bottom: 20px;
+            margin-top: 5px;
+            margin-bottom: 10px;
         }
         .footer {
             font-size: 14px;
             color: #666;
-            margin-top: 30px;
+            margin-top: 10px;
         }
         .boton-descarga {
             display: flex;
             justify-content: left;
-            margin-top: 20px;
+            margin-top: 10px;
         }
         .stDownloadButton {
             padding: 10px 20px !important;
@@ -40,15 +40,11 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Título y desarrollador con espaciado adicional
+# Título y desarrollador con espaciado ajustado
 st.markdown('<div class="titulo">Conversor de preguntas Blackboard Ultra</div>', unsafe_allow_html=True)
-
 st.markdown('<div class="desarrollador">Desarrollado por: Maycoll Gamarra Chura</div>', unsafe_allow_html=True)
 
-# Espaciado antes de la carga de archivos
-st.markdown("<br>", unsafe_allow_html=True)
-
-# Subir archivo Excel
+# Subir archivo Excel con espaciado uniforme
 archivo_subido = st.file_uploader("📂 Arrastra o selecciona un archivo Excel", type=["xlsx"])
 
 if archivo_subido is not None:
@@ -67,10 +63,7 @@ if archivo_subido is not None:
         ruta_salida = "preguntas.txt"
         convertir.guardar_preguntas_en_txt(preguntas, ruta_salida)
 
-        # Espaciado antes del botón de descarga
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        # Mostrar botón de descarga
+        # Mostrar botón de descarga con espaciado simétrico
         with open(ruta_salida, "rb") as f:
             st.markdown('<div class="boton-descarga">', unsafe_allow_html=True)
             st.download_button("📥 Descargar archivo TXT", f, file_name="preguntas.txt", mime="text/plain")
@@ -84,8 +77,5 @@ if archivo_subido is not None:
     if os.path.exists(ruta_salida):
         os.remove(ruta_salida)
 
-# Espaciado antes de la última actualización
-st.markdown("<br><br>", unsafe_allow_html=True)
-
-# Última actualización
+# Última actualización con espaciado equilibrado
 st.markdown('<div class="footer">Última actualización: 15/03/25</div>', unsafe_allow_html=True)
