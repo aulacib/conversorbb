@@ -7,12 +7,16 @@ from convertir import convertir_excel_a_preguntas
 st.markdown(
     """
     <style>
-    /* Ajustar el título para que no sea tapado por la barra de Streamlit */
+    /* Ajustar el margen superior de todo el contenido */
+    .block-container {
+        padding-top: 7px !important; /* Baja todo 7 píxeles */
+    }
+
+    /* Estilo del título */
     .titulo {
         font-size: 24px;
         font-weight: bold;
         text-align: left;
-        margin-top: 3rem; /* Ajusta para que no lo tape la barra */
         margin-bottom: 15px;
         color: #333;
     }
@@ -31,11 +35,6 @@ st.markdown(
         font-size: 12px;
         color: #555;
         margin-top: 20px;
-    }
-
-    /* Reducir margen superior global de la app */
-    .block-container {
-        padding-top: 0rem !important; /* Ajusta el espacio superior */
     }
 
     /* Estilos para el botón de subida de archivos */
