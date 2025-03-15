@@ -55,7 +55,7 @@ st.markdown(
 )
 
 # Título con nuevo estilo
-st.markdown('<h1 class="titulo">Conversor de Preguntas para Blackboard Ultra</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="titulo">Conversor de preguntas para Blackboard Ultra</h1>', unsafe_allow_html=True)
 
 # Información del desarrollador
 st.markdown('<div class="desarrollado">Desarrollado por: Maycoll Gamarra Chura</div>', unsafe_allow_html=True)
