@@ -1,51 +1,61 @@
 import streamlit as st
+import pandas as pd
 
-# Estilos personalizados
-st.markdown(
-    """
-    <style>
-    .desarrollado {
-        text-align: left;
-        font-size: 16px;
-        font-weight: normal; /* Se quita la negrita */
-        margin-bottom: 10px;
-    }
-    .ultima-actualizacion {
-        font-size: 12px;
-        color: #555;
-        margin-top: 20px;
-    }
-    /* Estilos para el botón de subida de archivos */
-    div[data-testid="stFileUploadDropzone"] button {
-        background-color: #004A98 !important; /* Azul Cibertec */
-        color: white !important;
-        border: none !important;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-        transition: 0.3s ease-in-out;
-    }
-    div[data-testid="stFileUploadDropzone"] button:hover {
-        background-color: #003366 !important; /* Azul más oscuro al pasar el mouse */
-        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+def convertir_excel_a_txt(archivo):
+    df = pd.read_excel(archivo, sheet_name="Formato")
+    
+    # Procesar el archivo según el formato esperado
+    preguntas_txt = []
+    
+    for _, row in df.iterrows():
+        tipo_pregunta = str(row.get("Tipo de Pregunta", "")).strip().lower()
+        enunciado = str(row.get("Pregunta", "")).strip()
+        
+        if tipo_pregunta == "opción múltiple":
+            preguntas_txt.append(f"MC\t{enunciado}")
+            opciones = ["A", "B", "C", "D"]
+            for i, opcion in enumerate(opciones):
+                respuesta = str(row.get(opcion, "")).strip()
+                if respuesta:
+                    preguntas_txt.append(f"{opcion}. {respuesta}")
+            preguntas_txt.append("")  # Línea en blanco entre preguntas
+        
+        elif tipo_pregunta == "verdadero/falso":
+            preguntas_txt.append(f"TF\t{enunciado}")
+            respuesta_correcta = str(row.get("Respuesta Correcta", "")).strip()
+            preguntas_txt.append(f"Correcta: {respuesta_correcta}")
+            preguntas_txt.append("")  # Línea en blanco
+        
+        elif tipo_pregunta == "rellenar el espacio en blanco":
+            preguntas_txt.append(f"blank 1. {enunciado}")
+            respuestas_correctas = str(row.get("I", "")).strip()
+            if respuestas_correctas:
+                preguntas_txt.append(f"a. {respuestas_correctas}")
+            preguntas_txt.append("")  # Línea en blanco
 
-# Título de la aplicación
+    return "\n".join(preguntas_txt)
+
+# Interfaz en Streamlit
 st.title("Conversor de Preguntas para Blackboard Ultra")
 
-# Información del desarrollador SIN negrita
-st.markdown('<div class="desarrollado">Desarrollado por: Maycoll Gamarra Chura</div>', unsafe_allow_html=True)
+# Información del desarrollador (sin negrita)
+st.markdown("Desarrollado por: Maycoll Gamarra Chura")
 
-# Sección de carga de archivos
 st.markdown("📂 **Arrastra o selecciona un archivo Excel**")
-
 archivo = st.file_uploader("", type=["xlsx"], label_visibility="collapsed")
 
-# Mostrar mensaje de éxito si se carga un archivo
 if archivo:
     st.success("Archivo cargado correctamente.")
 
-# Mostrar la fecha de última actualización sin icono de enlace
-st.markdown('<p class="ultima-actualizacion">Última actualización: 16/03/25</p>', unsafe_allow_html=True)
+    # Convertir el archivo Excel a TXT
+    contenido_txt = convertir_excel_a_txt(archivo)
+
+    # Botón para descargar el archivo TXT
+    st.download_button(
+        label="Descargar archivo TXT",
+        data=contenido_txt,
+        file_name="preguntas_blackboard.txt",
+        mime="text/plain"
+    )
+
+st.markdown("Última actualización: 16/03/25")
