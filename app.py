@@ -24,7 +24,7 @@ st.markdown(
     /* Información del desarrollador */
     .desarrollado {
         text-align: left;
-        font-size: 15px;
+        font-size: 15px; !important
         font-weight: normal;
         margin-bottom: 10px;
         color: #444;
