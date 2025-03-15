@@ -3,7 +3,7 @@ import pandas as pd
 import io
 from convertir import convertir_excel_a_preguntas
 
-# Estilos personalizados con mayor prioridad
+# Estilos personalizados con prioridad
 st.markdown(
     """
     <style>
@@ -14,7 +14,7 @@ st.markdown(
 
     /* Estilo del título con prioridad */
     h1.titulo {
-        font-size: 18px !important; /* Tamaño del título más pequeño con prioridad */
+        font-size: 22px !important; /* Tamaño del título intermedio */
         font-weight: bold;
         text-align: left;
         margin-bottom: 10px;
