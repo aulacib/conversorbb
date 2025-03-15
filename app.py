@@ -14,7 +14,7 @@ st.markdown(
 
     /* Estilo del título */
     .titulo {
-        font-size: 18px; /* Tamaño reducido */
+        font-size: 16px; /* Tamaño más pequeño */
         font-weight: bold;
         text-align: left;
         margin-bottom: 10px;
