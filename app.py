@@ -32,7 +32,7 @@ st.markdown(
 
     /* Última actualización */
     .ultima-actualizacion {
-        font-size: 12px;
+        font-size: 12px !important; /* Se agrega !important para que el tamaño se aplique */
         color: #555;
         margin-top: 20px;
     }
