@@ -1,4 +1,6 @@
 import streamlit as st
+import pandas as pd
+from io import BytesIO
 
 # Estilos personalizados
 st.markdown(
@@ -7,7 +9,7 @@ st.markdown(
     .desarrollado {
         text-align: left;
         font-size: 16px;
-        font-weight: normal; /* Se quita la negrita */
+        font-weight: normal;
         margin-bottom: 10px;
     }
     .ultima-actualizacion {
@@ -15,16 +17,15 @@ st.markdown(
         color: #555;
         margin-top: 20px;
     }
-    /* Estilos para el botón de subida de archivos */
     div[data-testid="stFileUploadDropzone"] button {
-        background-color: #004A98 !important; /* Azul Cibertec */
+        background-color: #004A98 !important;
         color: white !important;
         border: none !important;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
         transition: 0.3s ease-in-out;
     }
     div[data-testid="stFileUploadDropzone"] button:hover {
-        background-color: #003366 !important; /* Azul más oscuro al pasar el mouse */
+        background-color: #003366 !important;
         box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
     }
     </style>
@@ -40,12 +41,36 @@ st.markdown('<div class="desarrollado">Desarrollado por: Maycoll Gamarra Chura</
 
 # Sección de carga de archivos
 st.markdown("\U0001F4C2 **Arrastra o selecciona un archivo Excel**")
-
 archivo = st.file_uploader("", type=["xlsx"], label_visibility="collapsed")
 
-# Mostrar mensaje de éxito si se carga un archivo
+# Función para convertir el archivo Excel a formato TXT
+
+def convertir_a_txt(archivo):
+    df = pd.read_excel(archivo, sheet_name="Formato")
+    
+    # Simulación de conversión
+    contenido_txt = "".join(df.astype(str).apply(lambda x: " ".join(x), axis=1))
+    
+    return contenido_txt
+
+# Procesamiento del archivo
 if archivo:
     st.success("Archivo cargado correctamente.")
+    
+    contenido_txt = convertir_a_txt(archivo)
+    
+    # Convertir el contenido a un archivo descargable
+    buffer = BytesIO()
+    buffer.write(contenido_txt.encode())
+    buffer.seek(0)
+    
+    # Botón de descarga
+    st.download_button(
+        label="📥 Descargar archivo TXT",
+        data=buffer,
+        file_name="preguntas_blackboard.txt",
+        mime="text/plain"
+    )
 
 # Mostrar la fecha de última actualización sin icono de enlace
 st.markdown('<p class="ultima-actualizacion">Última actualización: 16/03/25</p>', unsafe_allow_html=True)
