@@ -9,12 +9,12 @@ st.markdown(
     <style>
     /* Ajustar el margen superior de todo el contenido */
     .block-container {
-        padding-top: 25px !important; /* Baja todo 7 píxeles */
+        padding-top: 28px !important; /* Baja todo 7 píxeles */
     }
 
     /* Estilo del título con prioridad */
     h1.titulo {
-        font-size: 28px !important; /* Tamaño del título intermedio */
+        font-size: 30px !important; /* Tamaño del título intermedio */
         font-weight: bold;
         text-align: center;
         margin-bottom: 10px;
