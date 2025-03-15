@@ -14,7 +14,7 @@ st.markdown(
 
     /* Estilo del título con prioridad */
     h1.titulo {
-        font-size: 24px !important; /* Tamaño del título intermedio */
+        font-size: 28px !important; /* Tamaño del título intermedio */
         font-weight: bold;
         text-align: left;
         margin-bottom: 10px;
